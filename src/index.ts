@@ -96,25 +96,31 @@ function parseForwardedMail(content: string): { from?: string, subject?: string,
 
 	// Regex for "From" / "Dari" in forwarded block
 	// Matches "Dari: ... <...>" or "From: ... <...>"
-	const fromMatch = content.match(/(?:Dari|From):\s*(.*?)(?:\r?\n|<br>)/i);
+	const fromMatch = content.match(/(?:Dari|From):\s*(.*?)(?:\r?\n|<br>|<\/div>)/i);
 	if (fromMatch && fromMatch[1]) {
 		from = fromMatch[1].trim();
-		// Clean up HTML tags if present (simple check)
-		from = from.replace(/<[^>]*>/g, '').trim();
+		// Remove HTML tags but preserve content like <email@domain.com>
+		// We only strip tags that look like valid HTML tags (start with alpha/slash)
+		// or we can just strip specific tags we know appear like <br>, <span>, <a>
+		from = from.replace(/<\/?(?:br|div|span|p|a|b|i|u|strong|em)[^>]*>/gi, '').trim();
+		// Also decode &lt; and &gt; if they appear
+		from = from.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, ' ');
 	}
 
 	// Regex for "Date" / "Tanggal"
-	const dateMatch = content.match(/(?:Date|Tanggal|Sent):\s*(.*?)(?:\r?\n|<br>)/i);
+	const dateMatch = content.match(/(?:Date|Tanggal|Sent):\s*(.*?)(?:\r?\n|<br>|<\/div>)/i);
 	if (dateMatch && dateMatch[1]) {
 		date = dateMatch[1].trim();
-		date = date.replace(/<[^>]*>/g, '').trim();
+		date = date.replace(/<\/?(?:br|div|span|p|a|b|i|u|strong|em)[^>]*>/gi, '').trim();
+		date = date.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, ' ');
 	}
 
 	// Regex for "Subject"
-	const subjectMatch = content.match(/Subject:\s*(.*?)(?:\r?\n|<br>)/i);
+	const subjectMatch = content.match(/Subject:\s*(.*?)(?:\r?\n|<br>|<\/div>)/i);
 	if (subjectMatch && subjectMatch[1]) {
 		subject = subjectMatch[1].trim();
-		subject = subject.replace(/<[^>]*>/g, '').trim();
+		subject = subject.replace(/<\/?(?:br|div|span|p|a|b|i|u|strong|em)[^>]*>/gi, '').trim();
+		subject = subject.replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, ' ');
 	}
 
 	return { from, subject, date };

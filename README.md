@@ -1,16 +1,18 @@
 # Email Parser Worker
 
-A Cloudflare Worker that parses incoming emails **Transaction Notification from Livin** using `postal-mime` and forwards transaction details to Telegram.
+A Cloudflare Worker that parses incoming emails **Transaction Notification from BCA** using `postal-mime` and forwards transaction details to Telegram.
 
 ## Features
 - Parses extracting:
-  - **Sender** (Original sender if forwarded)
-  - **Subject**
-  - **Date**
-  - **Penerima**
-  - **Nominal Transaksi** (Supports "Jumlah Transfer")
-  - **No. Referensi**
-  - **Sumber Dana** (Supports "Rekening Sumber")
+```plain
+Nomor Customer
+Nomor Kartu
+Merchant / ATM
+Jenis Transaksi
+Otentikasi
+Pada Tanggal
+Sejumlah
+```
 - Sends formatted notifications to Telegram.
 - Supports handling forwarded emails (extracts original details).
 
@@ -38,7 +40,7 @@ A Cloudflare Worker that parses incoming emails **Transaction Notification from 
     ```bash
     npm run test:local
     ```
-    Ensure you have `Pembayaran Berhasil!.eml` or `Fwd_ Pembayaran Berhasil!.eml` in the root.
+    Ensure you have `Credit Card Transaction Notification.eml` or `Fwd_ Credit Card Transaction Notification.eml` in the root.
 
 3.  **Secrets Configuration**:
     For local development, create a `.dev.vars` file:

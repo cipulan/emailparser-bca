@@ -1,6 +1,7 @@
 {
   "name": "email-parser",
   "version": "0.0.1",
+  "type": "module",
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20240101.0",
     "@types/node": "^25.0.9",
