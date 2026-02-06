@@ -19,14 +19,17 @@ Sejumlah
 ```json
 --- Extracted Data ---
 {
-  "penerima": "Rin****n 11",
-  "nominal": "Rp 954.800,00",
-  "noRef": "2511271121557939xxx",
-  "sumberDana": "Kartu Kredit - Man***i Sh****e"
+  "nomorCustomer": "000000001XXXXX58",
+  "nomorKartu": "520XXXXXXXXX08",
+  "merchant": "BLXXXX.COM",
+  "jenisTransaksi": "E-COMMERCE",
+  "otentikasi": "TRANSAKSI DENGAN OTP",
+  "padaTanggal": "27-01-2026 00:XX:01 WIB",
+  "sejumlah": "Rp2.XXX.000,00"
 }
 ```
 
-<img src="./img/IMG_6163-Medium.jpeg" alt="image" />
+<img src="./img/20216.28.23-Medium.jpeg" alt="image" />
 
 ## Setup
 
