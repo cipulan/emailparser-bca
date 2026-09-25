@@ -14,6 +14,7 @@ Pada Tanggal
 Sejumlah
 ```
 - Sends formatted notifications to Telegram.
+- Supports Telegram forum topic threads via optional `TELEGRAM_TOPIC_ID`.
 - Supports handling forwarded emails (extracts original details).
 
 ```json
@@ -50,7 +51,16 @@ Sejumlah
     ```ini
     TELEGRAM_BOT_TOKEN="your_token"
     TELEGRAM_CHAT_ID="your_chat_id"
+    TELEGRAM_TOPIC_ID="your_topic_id"
     ```
+
+    `TELEGRAM_TOPIC_ID` is **optional**. Set it only if your Telegram group is a forum supergroup with Topics enabled and you want messages sent to a specific topic.
+
+    **How to get the Topic ID:**
+    - Open the topic in Telegram Web/Desktop. The URL looks like `https://t.me/c/1234567890/42` — the topic id is the last number (`42`).
+    - Or use a bot/helper such as `@RawDataBot` in the target topic.
+
+    Leave it empty or unset to send to the group's default (General) topic.
 
 ## Deployment
 
@@ -64,6 +74,8 @@ Sejumlah
     ```bash
     npx wrangler secret put TELEGRAM_BOT_TOKEN
     npx wrangler secret put TELEGRAM_CHAT_ID
+    # Optional: only for forum supergroups with Topics
+    npx wrangler secret put TELEGRAM_TOPIC_ID
     ```
     *Note: You can also set these in the Cloudflare Dashboard under Worker > Settings > Variables and Secrets.*
 
