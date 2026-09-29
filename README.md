@@ -1,6 +1,6 @@
 # Email Parser Worker
 
-A Cloudflare Worker that parses incoming emails **Transaction Notification from BCA** using `postal-mime` and forwards transaction details to Telegram.
+A Cloudflare Worker that parses incoming emails **Transaction Notification from BCA** using `postal-mime` and forwards transaction details to Telegram and WhatsApp (via WAHA).
 
 ## Features
 - Parses extracting:
@@ -14,6 +14,7 @@ Pada Tanggal
 Sejumlah
 ```
 - Sends formatted notifications to Telegram.
+- Forwards the same notification to a WhatsApp group via WAHA.
 - Supports Telegram forum topic threads via optional `TELEGRAM_TOPIC_ID`.
 - Supports handling forwarded emails (extracts original details).
 
@@ -52,6 +53,9 @@ Sejumlah
     TELEGRAM_BOT_TOKEN="your_token"
     TELEGRAM_CHAT_ID="your_chat_id"
     TELEGRAM_TOPIC_ID="your_topic_id"
+    WA_API_URL="https://your-waha-server"
+    WA_API_KEY="your_waha_api_key"
+    WA_GROUP_ID="your_whatsapp_group_id"
     ```
 
     `TELEGRAM_TOPIC_ID` is **optional**. Set it only if your Telegram group is a forum supergroup with Topics enabled and you want messages sent to a specific topic.
@@ -76,6 +80,9 @@ Sejumlah
     npx wrangler secret put TELEGRAM_CHAT_ID
     # Optional: only for forum supergroups with Topics
     npx wrangler secret put TELEGRAM_TOPIC_ID
+    npx wrangler secret put WA_API_URL
+    npx wrangler secret put WA_API_KEY
+    npx wrangler secret put WA_GROUP_ID
     ```
     *Note: You can also set these in the Cloudflare Dashboard under Worker > Settings > Variables and Secrets.*
 
