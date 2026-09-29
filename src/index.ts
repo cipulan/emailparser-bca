@@ -4,6 +4,9 @@ interface Env {
 	TELEGRAM_BOT_TOKEN: string;
 	TELEGRAM_CHAT_ID: string;
 	TELEGRAM_TOPIC_ID?: string;
+	WA_API_URL?: string;
+	WA_API_KEY?: string;
+	WA_GROUP_ID?: string;
 }
 
 export default {
@@ -45,6 +48,8 @@ export default {
 				`*Sejumlah:* ${escapeMarkdown(td.sejumlah)}`;
 
 			await sendToTelegram(telegramBotToken, telegramChatId, telegramMessage, telegramTopicId);
+
+			await sendToWhatsApp(env.WA_API_URL, env.WA_API_KEY, env.WA_GROUP_ID, telegramMessage);
 
 		} catch (error) {
 			console.error('Error parsing email or sending to Telegram:', error);
@@ -167,4 +172,33 @@ function escapeMarkdown(text: string): string {
 	// It's safer to avoid conflicting markdown characters if we aren't strict.
 	// For simplicity with 'Markdown' mode:
 	return text.replace(/[_*`\[]/g, '\\$&');
+}
+
+
+async function sendToWhatsApp(apiUrl: string | undefined, apiKey: string | undefined, groupId: string | undefined, text: string) {
+	if (!apiUrl || !apiKey || !groupId) {
+		console.error('Missing WhatsApp configuration, skipping');
+		return;
+	}
+	const url = apiUrl.replace(/\/$/, '') + '/api/sendText';
+	try {
+		const resp = await fetch(url, {
+			method: 'POST',
+			headers: {
+				'accept': 'application/json',
+				'X-Api-Key': apiKey,
+				'Content-Type': 'application/json',
+			},
+			body: JSON.stringify({
+				chatId: groupId,
+				text: text,
+				session: 'default',
+			}),
+		});
+		if (!resp.ok) {
+			console.error('WhatsApp send failed:', resp.status, await resp.text());
+		}
+	} catch (error) {
+		console.error('Error sending to WhatsApp:', error);
+	}
 }
