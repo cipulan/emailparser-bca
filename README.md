@@ -14,7 +14,7 @@ Pada Tanggal
 Sejumlah
 ```
 - Sends formatted notifications to Telegram.
-- Forwards the same notification to a WhatsApp group via WAHA.
+- Forwards the same notification to a WhatsApp group via WAHA (optional, enable with `WA_ENABLED=true`).
 - Supports Telegram forum topic threads via optional `TELEGRAM_TOPIC_ID`.
 - Supports handling forwarded emails (extracts original details).
 
@@ -57,6 +57,7 @@ Sejumlah
     WA_API_KEY="your_waha_api_key"
     WA_GROUP_ID="your_whatsapp_group_id"
     WA_SESSION="default"  # optional, defaults to "default"
+    WA_ENABLED="true"  # optional, defaults to off
     ```
 
     `TELEGRAM_TOPIC_ID` is **optional**. Set it only if your Telegram group is a forum supergroup with Topics enabled and you want messages sent to a specific topic.
@@ -85,6 +86,7 @@ Sejumlah
     npx wrangler secret put WA_API_KEY
     npx wrangler secret put WA_GROUP_ID
     npx wrangler secret put WA_SESSION  # optional
+    npx wrangler secret put WA_ENABLED  # optional, set to "true" to enable
     ```
     *Note: You can also set these in the Cloudflare Dashboard under Worker > Settings > Variables and Secrets.*
 
